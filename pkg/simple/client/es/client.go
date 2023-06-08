@@ -27,6 +27,7 @@ import (
 
 	"kubesphere.io/kubesphere/pkg/simple/client/es/query"
 	"kubesphere.io/kubesphere/pkg/simple/client/es/versions"
+	v2 "kubesphere.io/kubesphere/pkg/simple/client/es/versions/v2"
 	v5 "kubesphere.io/kubesphere/pkg/simple/client/es/versions/v5"
 	v6 "kubesphere.io/kubesphere/pkg/simple/client/es/versions/v6"
 	v7 "kubesphere.io/kubesphere/pkg/simple/client/es/versions/v7"
@@ -34,9 +35,10 @@ import (
 )
 
 const (
-	ElasticV5 = "5"
-	ElasticV6 = "6"
-	ElasticV7 = "7"
+	ElasticV5    = "5"
+	ElasticV6    = "6"
+	ElasticV7    = "7"
+	OpenSearchV2 = "2"
 )
 
 // Elasticsearch client
@@ -64,6 +66,8 @@ func NewClient(host string, basicAuth bool, username, password, indexPrefix, ver
 	}
 
 	switch es.version {
+	case OpenSearchV2:
+		es.c, err = v2.New(es.host, es.basicAuth, es.username, es.password, es.index)
 	case ElasticV5:
 		es.c, err = v5.New(es.host, es.basicAuth, es.username, es.password, es.index)
 	case ElasticV6:
@@ -136,6 +140,8 @@ func (c *Client) loadClient() error {
 	case ElasticV6:
 		vc, err = v6.New(c.host, c.basicAuth, c.username, c.password, c.index)
 	case ElasticV7:
+		vc, err = v7.New(c.host, c.basicAuth, c.username, c.password, c.index)
+	case OpenSearchV2:
 		vc, err = v7.New(c.host, c.basicAuth, c.username, c.password, c.index)
 	default:
 		err = fmt.Errorf("unsupported elasticsearch version %s", version)

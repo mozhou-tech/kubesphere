@@ -10,7 +10,8 @@ GV="network:v1alpha1 servicemesh:v1alpha2 tenant:v1alpha1 tenant:v1alpha2 devops
 MANIFESTS="application/* cluster/* iam/* network/v1alpha1 quota/* storage/* tenant/* gateway/*"
 
 # App Version
-APP_VERSION = v3.2.0
+APP_VERSION = v3.4.0
+ENVTEST_K8S_VERSION= 1.26.0
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
